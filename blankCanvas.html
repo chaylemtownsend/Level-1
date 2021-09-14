@@ -21,22 +21,91 @@
         var playerYspeed = 5;
         var PLAYER_SIZE = 20;
 
+
+        var enemyXpos = 0;
+        var enemyYpos = 0;
+        var enemyXspeed = 3;
+        var enemyYspeed = 3;
+        var ENEMY_SIZE = 20;
+
+        var bulletXpos = 0;
+        var bulletYpos = 0;
+        const BULLET_WIDTH = 4;
+        const BULLET_HEIGHT = 4;
+        var bulletYspeed = 4;
+        var bulletXspeed = 4;
+
         const LEFT_KEY = 37;
         const RIGHT_KEY = 39;
         const UP_KEY = 40;
         const DOWN_KEY = 38;
 
+        const SPACE_KEY = 32;
+
         var rightKeyPressed = false;
         var leftKeyPressed = false;
         var downKeyPressed = false;
         var upKeyPressed = false;
+        
+        
+        
+        var enemies = [];
+        
+        var starting = true;
+        
+        
+        
+        
 
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black');
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'blue');
+            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'red');
             playermove();
+            
         }
-
+        
+        
+        
+        if(starting) {
+            enemyXpos = canvas.width / 2;
+            makeEnemy();
+            starting = false;
+            
+        }
+        
+        enemymove();
+        
+        
+        function makeEnemy(){
+            
+        var enemyXpos = Math.floor(Math.random()*(canvas.width - ENEMY_SIZE));
+        var enemyYpos = 0;
+        var enemyXspeed = 3;
+        var enemyYspeed = 3;
+        var ENEMY_SIZE = 20;
+            
+        }
+        var enemy = {
+            enemyXpos: enemyXpos,
+            enemyYpos: enemyYpos,
+            ENEMY_SIZE: ENEMY_SIZE,
+            enemyXspeed: enemyXspeed,
+            enemyYspeed: enemyYspeed,
+        }
+        
+        enemies.push(enemy);
+        
+        function enemyMove() {
+            enemyYpos += enemyYspeed;
+            if (enemyYpos > canvas.height) {
+                enemyYpos = 0
+            }
+            
+            
+        }
+        
+        
 
         function playermove() {
             if (rightKeyPressed) {
@@ -76,6 +145,13 @@
             if (evt.keyCode == UP_KEY) {
                 upKeyPressed = true;
             }
+
+
+            if (evt.keyCode == SPACE_KEY) {
+                shooting = true;
+            }
+
+
         }
 
         function KeyRealeased(evt) {
@@ -96,6 +172,31 @@
                 upKeyPressed = false;
             }
         }
+
+        var shooting = false;
+        var shoot = false;
+
+        function bulletshoot() {
+           if(shooting){
+              bulletXpos = playerXpos + PLAYER_SIZE / 2 - BULLET_WIDTH / 2
+               bulletYpos = playerYpos;
+              }
+        }
+
+        function setup() {
+            playerXpos = canvas.width / 2 - PLAYER_SIZE / 2;
+            playerYpos = canvas.width * 0.8;
+
+            enemyXpos = canvas.width / 2 - PLAYER_SIZE / 2;
+            enemyYpos = ENEMY_SIZE * 2;
+
+
+
+        }
+
+
+
+
 
 
         function colorRect(x, y, w, h, c) {
